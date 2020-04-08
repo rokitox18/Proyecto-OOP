@@ -21,6 +21,6 @@ public class Especie extends Actor
         // Add your action code here.
     }
     public int getEnergia(){
-     return this.energia;   
+     return energia;   
     }
 }

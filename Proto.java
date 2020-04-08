@@ -6,16 +6,20 @@ import java.util.Random;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Proto extends Especie
+public abstract class  Proto extends Especie
 {
     private int energia;
-    
+   
     /**
      * Act - do whatever the Proto wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() 
     {
-        // Add your action code here.
-    }    
+       if(((Jupiter)getWorld()).turnoJg1){
+        enCombate();
+        ((Jupiter)getWorld()).cambiarTurno1();
+    }
+}  
+    public abstract void enCombate();
 }
