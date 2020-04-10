@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.List;
 /**
  * Write a description of class Terrano here.
  * 
@@ -23,6 +23,25 @@ public abstract class Terrano extends Especie
          }    
      }
    public abstract void enCombate();
-   
+   public void objAleatorio(){
+        
+     List lp = getWorld().getObjects(Terrano.class);
+       int num = Greenfoot.getRandomNumber(6);
+      Terrano c= (Terrano) lp.get(num);
+      if(c.getClass()==ConstructorH.class){
+          ConstructorH o = new ConstructorH();
+         o =  (ConstructorH) c;
+         o.act();
+    }if(c.getClass()==GuerreroH.class){
+          GuerreroH o = new GuerreroH();
+         o =  (GuerreroH) c;
+         o.act();
+    }
+    if(c.getClass()==MedicoH.class){
+          MedicoH o = new MedicoH();
+         o =  (MedicoH) c;
+         o.act();
+    }
+}
 
 }

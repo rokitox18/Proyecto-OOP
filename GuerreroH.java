@@ -81,46 +81,81 @@ public class GuerreroH extends Terrano
     }
         
     }
+    if(isTouching(ConstructorP.class)){
+              Actor op = this.getOneIntersectingObject(ConstructorP.class);
+        if((op !=null)|| getToque()){ 
+            int prueba = 0; 
+        
+                
+           ConstructorP m = new ConstructorP();
+            m =(ConstructorP) op;
+           m.setEnergia( m.getEnergia() -20);
+
+            if(m.getEnergia() < 0)
+            removeTouching(ConstructorP.class);
+            cambiarToque();
+            prueba++;
+            if(prueba==1){
+            ((Jupiter)getWorld()).cambiarTurno1();
+            }
+        }
+    
+    
+    }
    
   }
    public void movimiento(){
-      
+        int z = Greenfoot.getRandomNumber(3)+1;
        
-       if(Greenfoot.isKeyDown("a")){
+       
        int prueba=0;   
-           if(Greenfoot.isKeyDown("up")){
+           if(z==1){
           int y = getY();
               setLocation(getX(),y-1);
               prueba++;
+              
+              if(chequeoTocar()){
+                setLocation(getX(),y);
+                }
+                enCombate();
               if(prueba==1){
-                  enCombate();
+                
             ((Jupiter)getWorld()).cambiarTurno2(); 
             }
             }
-         if(Greenfoot.isKeyDown("down")){
+         if(z==2){
           int y = getY();
               setLocation(getX(),y+1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(getX(),y);
+                }
               enCombate();
               if(prueba==1){
                   
             ((Jupiter)getWorld()).cambiarTurno2(); 
             }
             }
-             if(Greenfoot.isKeyDown("right")){
-          
+             if(z==3){
+              int x = getX();   
               move(1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(x,getY());
+                }
               enCombate();
               if(prueba==1){
                  
             ((Jupiter)getWorld()).cambiarTurno2(); 
             }
             }
-            if(Greenfoot.isKeyDown("left")){
-          
+            if(z==4){
+                int x = getX();
               move(-1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(x,getY());
+                }
               enCombate();
               if(prueba==1){
                   
@@ -128,12 +163,24 @@ public class GuerreroH extends Terrano
             }
             }
           
-        }
+        
         
     }
+    
     public void chequear(){
      if(((Jupiter)getWorld()).turnoJg2){
          movimiento();
+        }
+    }
+     public boolean chequeoTocar(){
+        Actor noTocar = this.getOneIntersectingObject(Obst.class);
+        
+        if (noTocar != null){
+         return true;   
+            
+        }
+        else{
+        return false;
         }
     }
     public  int getEnergia(){

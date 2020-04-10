@@ -37,37 +37,67 @@ public boolean getToque(){
         }
     }
     public void enCombate(){
+        if(isTouching(GuerreroH.class)){
+        Actor op = this.getOneIntersectingObject(GuerreroH.class);
+        if((op !=null)|| getToque()){ 
+            int prueba = 0; 
         
-        
-            if(isTouching(GuerreroH.class)){
-                int num =   Greenfoot.getRandomNumber(100);
-         if(0<num&&num<=50){
-           int j = getEnergia();
-            j-=10;    
-            setEnergia(j);
-            if(getEnergia() < 0)
-            removeTouching(GuerreroP.class);
-            
-           
-        }
+                
+             GuerreroH m = new GuerreroH();
+            m =(GuerreroH) op;
+           m.setEnergia( m.getEnergia() -10);
+
+            if(m.getEnergia() < 0)
+            removeTouching(GuerreroH.class);
+            cambiarToque();
+            prueba++;
+            if(prueba==1){
+            ((Jupiter)getWorld()).cambiarTurno1();
             }
-        
+        }
+       
+        }
           if(isTouching(MedicoH.class)){
-              int num =  Greenfoot.getRandomNumber(100);
-              if(0<num&&num<=50){
-           List<MedicoH> gh = new ArrayList();
-             gh = getWorld().getObjects(MedicoH.class);
-           for(MedicoH p: gh){
-            setEnergia(getEnergia()-10);
-            if(getEnergia() < 0){
-            removeTouching(MedicoH.class);
-            }
-            
-        }
-            }      
-        }
+              Actor op = this.getOneIntersectingObject(MedicoH.class);
+        if((op !=null)|| getToque()){ 
+            int prueba = 0; 
         
-} 
+                
+           MedicoH m = new MedicoH();
+            m =(MedicoH) op;
+           m.setEnergia( m.getEnergia() -10);
+
+            if(m.getEnergia() < 0)
+            removeTouching(GuerreroH.class);
+            cambiarToque();
+            prueba++;
+            if(prueba==1){
+            ((Jupiter)getWorld()).cambiarTurno1();
+            }
+        }
+    }
+    if(isTouching(ConstructorH.class)){
+              Actor op = this.getOneIntersectingObject(ConstructorH.class);
+        if((op !=null)|| getToque()){ 
+            int prueba = 0; 
+        
+                
+           ConstructorH m = new ConstructorH();
+            m =(ConstructorH) op;
+           m.setEnergia( m.getEnergia() -15);
+
+            if(m.getEnergia() < 0)
+            removeTouching(ConstructorH.class);
+            cambiarToque();
+            prueba++;
+            if(prueba==1){
+            ((Jupiter)getWorld()).cambiarTurno1();
+            }
+        }
+    
+    
+    }
+    }
 public void curar(){
     if(isTouching(GuerreroP.class)){
         int prueba =0;
@@ -89,57 +119,76 @@ public void curar(){
 }
 }
    public void movimiento(){
-      
+        int z = Greenfoot.getRandomNumber(3)+1;
        
-       if(Greenfoot.isKeyDown("w")){
+       
        int prueba=0;   
-           if(Greenfoot.isKeyDown("up")){
+           if(z==1){
           int y = getY();
               setLocation(getX(),y-1);
               prueba++;
-              enCombate();
-              curar();
+              
+              if(chequeoTocar()){
+                setLocation(getX(),y);
+                }
+                enCombate();
               if(prueba==1){
-                  
+                
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
-         if(Greenfoot.isKeyDown("down")){
+         if(z==2){
           int y = getY();
               setLocation(getX(),y+1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(getX(),y);
+                }
               enCombate();
-              curar();
               if(prueba==1){
                   
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
-             if(Greenfoot.isKeyDown("right")){
-          
+             if(z==3){
+              int x = getX();   
               move(1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(x,getY());
+                }
               enCombate();
-              curar();
               if(prueba==1){
                  
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
-            if(Greenfoot.isKeyDown("left")){
-          
+            if(z==4){
+                int x = getX();
               move(-1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(x,getY());
+                }
               enCombate();
-              curar();
               if(prueba==1){
                   
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
           
-        }
         
+        
+    } public boolean chequeoTocar(){
+        Actor noTocar = this.getOneIntersectingObject(Obst.class);
+        
+        if (noTocar != null){
+         return true;   
+            
+        }
+        else{
+        return false;
+        }
     }
     public  int getEnergia(){
         return this.energia;

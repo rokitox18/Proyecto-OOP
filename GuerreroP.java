@@ -56,7 +56,7 @@ public class GuerreroP extends Proto
                 
              GuerreroH m = new GuerreroH();
             m =(GuerreroH) op;
-           m.setEnergia( m.getEnergia() -10);
+           m.setEnergia( m.getEnergia() -20);
 
             if(m.getEnergia() < 0)
             removeTouching(GuerreroH.class);
@@ -76,7 +76,7 @@ public class GuerreroP extends Proto
                 
            MedicoH m = new MedicoH();
             m =(MedicoH) op;
-           m.setEnergia( m.getEnergia() -10);
+           m.setEnergia( m.getEnergia() -30);
 
             if(m.getEnergia() < 0)
             removeTouching(GuerreroH.class);
@@ -87,49 +87,83 @@ public class GuerreroP extends Proto
             }
         }
     }
+    if(isTouching(ConstructorH.class)){
+              Actor op = this.getOneIntersectingObject(ConstructorH.class);
+        if((op !=null)|| getToque()){ 
+            int prueba = 0; 
+        
+                
+           ConstructorH m = new ConstructorH();
+            m =(ConstructorH) op;
+           m.setEnergia( m.getEnergia() -25);
+
+            if(m.getEnergia() < 0)
+            removeTouching(ConstructorH.class);
+            cambiarToque();
+            prueba++;
+            if(prueba==1){
+            ((Jupiter)getWorld()).cambiarTurno1();
+            }
+        }
+    
+    
+    }
+    
     }
         
 
     public void movimiento(){
-      
+        int z = Greenfoot.getRandomNumber(3)+1;
        
-       if(Greenfoot.isKeyDown("q")){
+       
        int prueba=0;   
-           if(Greenfoot.isKeyDown("up")){
+           if(z==1){
           int y = getY();
               setLocation(getX(),y-1);
               prueba++;
-              enCombate();
               
+              if(chequeoTocar()){
+                setLocation(getX(),y);
+                }
+                enCombate();
               if(prueba==1){
-                  
+                
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
-         if(Greenfoot.isKeyDown("down")){
+         if(z==2){
           int y = getY();
               setLocation(getX(),y+1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(getX(),y);
+                }
               enCombate();
               if(prueba==1){
                   
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
-             if(Greenfoot.isKeyDown("right")){
-          
+             if(z==3){
+              int x = getX();   
               move(1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(x,getY());
+                }
               enCombate();
               if(prueba==1){
                  
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
-            if(Greenfoot.isKeyDown("left")){
-          
+            if(z==4){
+                int x = getX();
               move(-1);
               prueba++;
+              if(chequeoTocar()){
+                setLocation(x,getY());
+                }
               enCombate();
               if(prueba==1){
                   
@@ -137,8 +171,19 @@ public class GuerreroP extends Proto
             }
             }
           
-        }
         
+        
+    }
+     public boolean chequeoTocar(){
+        Actor noTocar = this.getOneIntersectingObject(Obst.class);
+        
+        if (noTocar != null){
+         return true;   
+            
+        }
+        else{
+        return false;
+        }
     }
     public  int getEnergia(){
         return this.energia;
