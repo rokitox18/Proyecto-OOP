@@ -13,14 +13,32 @@ public class GuerreroP extends Proto
      * Act - do whatever the GuerreroP wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
+    public  int energia;
+    private boolean primerToque;
+   public void cambiarToque(){
+    if(primerToque == true)
+    primerToque = false;
+    else{
+        primerToque=false;
+    }
+}
     public GuerreroP(){
+      this.energia = 100;
        
-        setEnergia(100);
+    }
+    public void setToque(boolean primer){
+    this.primerToque= primer; 
+    }
+    public boolean getToque(){
+    return this.primerToque;
     }
     public void act() 
     {   
+        
         if(((Jupiter)getWorld()).turnoJg1){
+       if(getToque()){
         enCombate();
+    }
        chequear();
        }
     }
@@ -30,34 +48,48 @@ public class GuerreroP extends Proto
         }
     }
      public void enCombate(){
-        Random x = new Random();
+        if(isTouching(GuerreroH.class)){
+        Actor op = this.getOneIntersectingObject(GuerreroH.class);
+        if((op !=null)|| getToque()){ 
+            int prueba = 0; 
         
-            if(isTouching(GuerreroH.class)){
-                int num = x.nextInt(100)+1;
-         if(0<num&&num<=50){
-           List<GuerreroH> gh = new ArrayList();
-             gh = getWorld().getObjects(GuerreroH.class);
-           for(GuerreroH p: gh){
-            p.setEnergia(getEnergia()-10);
-            if(p.getEnergia()==0)
+                
+             GuerreroH m = new GuerreroH();
+            m =(GuerreroH) op;
+           m.setEnergia( m.getEnergia() -10);
+
+            if(m.getEnergia() < 0)
             removeTouching(GuerreroH.class);
-        }
+            cambiarToque();
+            prueba++;
+            if(prueba==1){
+            ((Jupiter)getWorld()).cambiarTurno1();
             }
+        }
+       
         }
           if(isTouching(MedicoH.class)){
-              int num = x.nextInt(100)+1;
-              if(0<num&&num<=70){
-             List<MedicoH> gh = new ArrayList();
-             gh = getWorld().getObjects(MedicoH.class);
-           for(MedicoH p: gh){
-            p.setEnergia(getEnergia()-10);
-             if(p.getEnergia()==0)
-            removeTouching(MedicoH.class);
-            }
-            }      
-        }
+              Actor op = this.getOneIntersectingObject(MedicoH.class);
+        if((op !=null)|| getToque()){ 
+            int prueba = 0; 
         
-}
+                
+           MedicoH m = new MedicoH();
+            m =(MedicoH) op;
+           m.setEnergia( m.getEnergia() -10);
+
+            if(m.getEnergia() < 0)
+            removeTouching(GuerreroH.class);
+            cambiarToque();
+            prueba++;
+            if(prueba==1){
+            ((Jupiter)getWorld()).cambiarTurno1();
+            }
+        }
+    }
+    }
+        
+
     public void movimiento(){
       
        
@@ -67,7 +99,10 @@ public class GuerreroP extends Proto
           int y = getY();
               setLocation(getX(),y-1);
               prueba++;
+              enCombate();
+              
               if(prueba==1){
+                  
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
@@ -75,7 +110,9 @@ public class GuerreroP extends Proto
           int y = getY();
               setLocation(getX(),y+1);
               prueba++;
+              enCombate();
               if(prueba==1){
+                  
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
@@ -83,7 +120,9 @@ public class GuerreroP extends Proto
           
               move(1);
               prueba++;
+              enCombate();
               if(prueba==1){
+                 
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
@@ -91,7 +130,9 @@ public class GuerreroP extends Proto
           
               move(-1);
               prueba++;
+              enCombate();
               if(prueba==1){
+                  
             ((Jupiter)getWorld()).cambiarTurno1(); 
             }
             }
@@ -99,4 +140,10 @@ public class GuerreroP extends Proto
         }
         
     }
+    public  int getEnergia(){
+        return this.energia;
+}
+ public void setEnergia(int energia){
+        this.energia = energia;
+}
 }

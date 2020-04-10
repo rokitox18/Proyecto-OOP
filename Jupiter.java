@@ -8,6 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Jupiter extends World
 {
+
     public boolean turnoJg1 = true;
     public boolean turnoJg2 = false;
     /**
@@ -17,7 +18,7 @@ public class Jupiter extends World
     public Jupiter()
     {    
         
-        super(15, 10, 50);
+        super(11, 6, 105);
         GuerreroP grP = new GuerreroP();
         addObject(grP,0,0);
         MedicoP md = new MedicoP();
